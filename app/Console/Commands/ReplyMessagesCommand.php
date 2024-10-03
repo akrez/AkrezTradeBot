@@ -43,9 +43,9 @@ class ReplyMessagesCommand extends Command
                 $chats = Coin::query()->where('coin_id', $coin->coin_id)->get();
                 $text = implode("\n", [
                     ($minMaxResult['is_min'] ? '🔴' : '🟢').' #'.$coin->coin_name,
-                    '⬆️ '.Number::format($minMaxResult['max_hour']['price']),
-                    ($minMaxResult['is_min'] ? '➖' : '➕').' '.(Number::format($minMaxResult['max_hour']['price']) - $minMaxResult['min_hour']['price']),
-                    '⬇️ '.Number::format($minMaxResult['min_hour']['price']),
+                    '⬆️ '.($minMaxResult['max_hour']['price']),
+                    ($minMaxResult['is_min'] ? '➖' : '➕').' '.(($minMaxResult['max_hour']['price']) - $minMaxResult['min_hour']['price']),
+                    '⬇️ '.($minMaxResult['min_hour']['price']),
                     date('Y-m-d H:i:s'),
                     'https://bitpin.ir/coin/'.$coin->coin_name,
                 ]);
