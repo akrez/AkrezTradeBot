@@ -80,7 +80,7 @@ class BitpinApi
     {
         $cacheKey = 'BitpinApi.getCoin.'.$coin.'.'.$iteration;
 
-        if ($useCache and isset($this->cache[$cacheKey])) {
+        if ($useCache and array_key_exists($cacheKey, $this->cache)) {
             return $this->cache[$cacheKey];
         }
 
@@ -88,7 +88,8 @@ class BitpinApi
             $this->cache[$cacheKey] = File::json(storage_path('api.bitpin.ir.json'))['v1/mkt/markets/charts'];
         } else {
             $url = 'https://api.bitpin.ir/v1/mkt/markets/charts/'.$coin.'/'.$iteration.'/';
-            $this->cache[$cacheKey] = (array) Http::get($url)->json();
+            $response = Http::get($url);
+            $this->cache[$cacheKey] = (array) $response->json();
         }
 
         return $this->cache[$cacheKey];
