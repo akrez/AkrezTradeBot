@@ -8,7 +8,6 @@ use App\Support\Chart;
 use App\Support\Sparkline;
 use App\Support\TelegramApi;
 use Illuminate\Console\Command;
-use Illuminate\Support\Number;
 
 class ReplyMessagesCommand extends Command
 {
@@ -52,9 +51,10 @@ class ReplyMessagesCommand extends Command
                 if (1) {
                     $gdImage = (new Sparkline)->generate(
                         array_values($minMaxResult['chart_data']),
-                        720,
-                        240,
-                        ($minMaxResult['is_min'] ? 'e54a5c' : '2bc890')
+                        800,
+                        300,
+                        array_fill_keys(['top', 'bottom', 'left', 'right'], 25),
+                        ($minMaxResult['is_min'] ? ['red' => 217, 'green' => 83, 'blue' => 79] : ['red' => 92, 'green' => 184, 'blue' => 92])
                     );
                 } else {
                     $gdImage = (new Chart)->generate(
