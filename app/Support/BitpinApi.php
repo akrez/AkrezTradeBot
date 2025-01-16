@@ -18,7 +18,11 @@ class BitpinApi
             if (0) {
                 $response = File::json(storage_path('api.bitpin.ir.json'))['v1/mkt/markets'];
             } else {
-                $response = (array) Http::get('https://api.bitpin.ir/v1/mkt/markets/')->json();
+                $response = (array) Http::withOptions([
+                    'curl' => [
+                        CURLOPT_DNS_SERVERS => '8.8.8.8',
+                    ],
+                ])->get('https://api.bitpin.ir/v1/mkt/markets/')->json();
             }
 
             if (isset($response['results']) and is_array($response['results'])) {
@@ -88,7 +92,11 @@ class BitpinApi
             $this->cache[$cacheKey] = File::json(storage_path('api.bitpin.ir.json'))['v1/mkt/markets/charts'];
         } else {
             $url = 'https://api.bitpin.ir/v1/mkt/markets/charts/'.$coin.'/'.$iteration.'/';
-            $response = Http::get($url);
+            $response = Http::withOptions([
+                'curl' => [
+                    CURLOPT_DNS_SERVERS => '8.8.8.8',
+                ],
+            ])->get($url);
             $this->cache[$cacheKey] = (array) $response->json();
         }
 

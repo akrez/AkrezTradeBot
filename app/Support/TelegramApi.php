@@ -21,7 +21,12 @@ class TelegramApi
     {
         $url = $this->getUrl($path);
 
-        $response = Http::withHeaders($headers)
+        $response = Http::withOptions([
+                'curl' => [
+                    CURLOPT_DNS_SERVERS => '8.8.8.8',
+                ],
+            ])
+            ->withHeaders($headers)
             ->asForm()
             ->post($url, $data);
 
@@ -114,7 +119,12 @@ class TelegramApi
 
         $url = $this->getUrl('sendPhoto');
 
-        $response = Http::timeout(5)
+        $response = Http::withOptions([
+                'curl' => [
+                    CURLOPT_DNS_SERVERS => '8.8.8.8',
+                ],
+            ])
+            ->timeout(5)
             ->connectTimeout(5)
             ->attach('photo', $photo, 'photo.jpg')
             ->post($url, $data);
